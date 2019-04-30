@@ -38,16 +38,21 @@ bool Navigation::BuildNetwork(const string &fileNamePlaces, const string &fileNa
 	fstream finLinks(fileNameLinks);
 	if (finPlaces.fail() || finLinks.fail()) return false;
 	std::string line;
+	vector<std::string> data;
 	while (std::getline(finPlaces,line))
 	{
 		
-		vector<std::string> data;
+		
 		boost::split(data, line, boost::is_any_of(","));
 		auto id = std::atoi(data[1].c_str());
-		auto lon = std::atof(data[2].c_str());
-		auto lat = std::atof(data[3].c_str());
+		double lon = std::atof(data[2].c_str());
+		double lat = std::atof(data[3].c_str());
 		auto node = new Node(data[0], id, lon, lat);
-		
+	}
+
+	while (std::getline(finLinks, line)) {
+		boost::split(data, line, boost::is_any_of(","));
+
 	}
 
 	return true;
