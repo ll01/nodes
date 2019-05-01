@@ -9,14 +9,17 @@ class Node
 private:
 	std::string m_name;
 	int m_id;
-	double m_lon;
-	double m_lat;
+	double m_x;
+	double m_y;
 	std::vector<Arc*>m_arcs;
 public:
 	static std::map<int, Node*> allNodes;
 	Node();
 	Node(std::string newName, int newId, double newLon, double newLan);
-	//AddArc();
+	double GetX();
+	double GetY();
+	double HighestArc();
+	void AddArc( Arc*);
 	~Node();
 };
 
