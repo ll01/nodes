@@ -17,6 +17,10 @@ Node::Node(std::string newName, int newId, double newLon, double newLat)
 	m_y = newLat;
 	Node::allNodes[m_id] = this;
 }
+int Node::GetID() {
+	return m_id;
+}
+
 double Node::GetX() {
 	return m_x;
 }
@@ -28,7 +32,7 @@ double Node::GetY() {
 void Node::AddArc(Arc* arc) {
 	m_arcs.push_back(arc);
 }
-double Node::HighestArc() {
+Arc* Node::HighestArc() {
 	double output = 0;
 	Arc* connectingArc  = NULL;
 	for(auto&& arc : m_arcs)
@@ -38,8 +42,17 @@ double Node::HighestArc() {
 			connectingArc  = arc;
 		}
 	}
-	return output;
+	return connectingArc;
 	
+}
+
+std::vector<int> Node::neighbors() {
+	auto output = std::vector<int>();
+	for(auto&& arc : m_arcs)
+	{
+		output.push_back(arc->GetNode(this)->m_id);
+	}
+	return output;
 }
 
 Node::~Node()

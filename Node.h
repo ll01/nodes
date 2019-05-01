@@ -13,13 +13,19 @@ private:
 	double m_y;
 	std::vector<Arc*>m_arcs;
 public:
+	// struct Node
+	// {
+	// 	/* data */
+	// };
+	
 	static std::map<int, Node*> allNodes;
 	Node();
 	Node(std::string newName, int newId, double newLon, double newLan);
+	int GetID();
 	double GetX();
 	double GetY();
-	double HighestArc();
+	Arc* HighestArc();
+	std::vector<int> neighbors();
 	void AddArc( Arc*);
 	~Node();
 };
-

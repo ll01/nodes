@@ -23,6 +23,7 @@ public:
 	Arc();
 	Arc(int from, int to, std::string travelType);
 	double getLength();
+	Node* GetNode(Node* from);
 	~Arc();
 };
 
