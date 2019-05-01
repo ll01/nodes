@@ -17,8 +17,7 @@ public:
 	// {
 	// 	/* data */
 	// };
-	
-	static std::map<int, Node*> allNodes;
+
 	Node();
 	Node(std::string newName, int newId, double newLon, double newLan);
 	int GetID();

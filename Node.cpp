@@ -4,7 +4,7 @@
 
 
 
-std::map<int, Node*> Node::allNodes;
+
 Node::Node()
 {
 }
@@ -15,7 +15,6 @@ Node::Node(std::string newName, int newId, double newLon, double newLat)
 	m_id = newId;
 	m_x = newLon;
 	m_y = newLat;
-	Node::allNodes[m_id] = this;
 }
 int Node::GetID() {
 	return m_id;
@@ -37,8 +36,8 @@ Arc* Node::HighestArc() {
 	Arc* connectingArc  = NULL;
 	for(auto&& arc : m_arcs)
 	{
-		if(output < arc->getLength()) {
-			output = arc->getLength();
+		if(output < arc->GetLength()) {
+			output = arc->GetLength();
 			connectingArc  = arc;
 		}
 	}

@@ -1,19 +1,37 @@
 #include "Arc.h"
 #include <cmath>
+#include "Network.h"
 
 std::map<int, Arc *> Arc::allArcs;
 Arc::Arc()
 {
 }
 
-Arc::Arc(int from, int to, std::string travelType)
+Arc::Arc(int from, int to, std::string travelType, std::map<int,Node*> nodes)
 {
-	m_to = Node::allNodes[to];
+	m_to = nodes[to];
 	m_to->AddArc(this);
-	m_from = Node::allNodes[from];
+	m_from = nodes[from];
 	m_from->AddArc(this);
+	m_id = std::to_string(to) + std::to_string(from);
 	calculateDistance();
 }
+
+double Arc::GetLength()
+{
+	return m_length;
+}
+
+std::string Arc::GetID()
+{
+	return m_id;
+}
+
+TravelType Arc::GetTravelType()
+{
+	return m_travel;
+}
+
 void Arc::calculateDistance()
 {
 	auto xDelta = m_to->GetX() - m_from->GetX();
@@ -34,7 +52,6 @@ Node *Arc::GetNode(Node *from)
 	}
 	return node;
 }
-
 Arc::~Arc()
 {
 }
