@@ -18,6 +18,7 @@ public:
 	Node* FindNode(int);
 	void addArc(Arc*);
 	void addNode(Node*);
+	Network& operator+=(const Network& other);
 	Network& operator+(const Network& other);
 	Network& operator=(const Network& other);
     ~Network();

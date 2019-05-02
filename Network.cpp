@@ -91,9 +91,9 @@ void MainNetwork::Generate(std::vector<Arc *> arcs, std::map<int, Node *> nodes)
 		}
 		m_subNetworks[arc->GetTravelType()].addArc(arc);
 	}
-	m_subNetworks[bus] = m_subNetworks[bus]+ m_subNetworks[rail];
-	m_subNetworks[bike] = m_subNetworks[bike] + m_subNetworks[bus];
-	m_subNetworks[foot] =  m_subNetworks[bike]+  m_subNetworks[rail];
+	m_subNetworks[bus] += m_subNetworks[rail];
+	m_subNetworks[bike] += m_subNetworks[bus];
+	m_subNetworks[foot] = m_subNetworks[bike] + m_subNetworks[rail];
 }
 void MainNetwork::addToSubNetwork(TravelType travelType, Arc *arc)
 {
