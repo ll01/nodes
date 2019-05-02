@@ -52,6 +52,9 @@ Node *Arc::GetNode(Node *from)
 	}
 	return node;
 }
+std::tuple<Node*,Node*> Arc::GetNodes(){
+	return  std::make_tuple(m_to, m_from);
+}
 Arc::~Arc()
 {
 }

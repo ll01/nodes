@@ -28,6 +28,8 @@ public:
 	std::string GetID();
 	TravelType GetTravelType();
 	Node* GetNode(Node* from);
+	std::tuple<Node*,Node*> GetNodes();
+
 	~Arc();
 };
 

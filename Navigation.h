@@ -12,7 +12,7 @@ class Navigation
 public:
 	Navigation();
 	~Navigation();
-
+	MainNetwork net;
 	bool BuildNetwork(const std::string& fileNamePlaces, const std::string& fileNameLinks);
 	bool ProcessCommand(const std::string& commandString);
 
