@@ -29,6 +29,26 @@ bool Navigation::ProcessCommand(const string& commandString)
 	inString >> command;
 	vector<string> commandParts;
 	boost::split(commandParts, command, boost::is_any_of(","));
+	switch (commandParts[0])
+	{
+		case "MaxDist":
+			break;
+		case "MaxLink":
+			break;
+		case "FindDist":
+			break;
+		case "FindNeighbour"
+			break;
+		case "Check"
+			break;
+		case "FindRoute"
+			break;
+		case "FindShortestRoute"
+			break;
+	
+		default:
+			break;
+	}
 
 	// Add your code here
 
