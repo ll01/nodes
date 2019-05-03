@@ -44,6 +44,10 @@ Arc *Network::FindArc(std::string id)
 	return found;
 }
 
+Arc *Network::FindArc(int one, int ) {
+
+}
+
 void Network::addNode(Node *node)
 {
 	m_nodeMap[node->GetID()] = node;
@@ -168,6 +172,51 @@ Node *Network::FindNode(int id)
 	}
 
 	return data->second;
+}
+std::tuple<Arc*,int> findSmallest(std::vector<Arc*> arcs) {
+	double smallest  = std::numeric_limits<double>::max();
+	int index = 0;
+	Arc* output = nullptr;
+	for (int i = 0; i < arcs.size(); i++)
+	{
+		auto arc = arcs[i];
+		if(smallest >= arc->GetLength()) {
+			smallest = arc->GetLength();
+			output = arc;
+			index = i;
+		}
+	}
+	return std::make_tuple( output,index);
+}
+
+std::tuple<std::map<int,double>, std::map<std::string,Arc*>> Network::Dijkstra(int sourceID ,int destinationID ) {
+	std::map<int,double>distance;
+	std::map<std::string,Arc*>visited;
+	std::map<std::string,Arc*>prev;
+	std::vector<Node*> nodes;
+	for (auto &&node : m_nodeMap)
+	{
+		distance[node.first] = std::numeric_limits<int>::max();
+		nodes.push_back(node.second);
+	}
+	distance[sourceID] = 0; 
+
+	for (int i = 0; i < nodes.size(); i++)
+	{
+		auto smol  = nodes[i]->LowestArc();
+		auto smolsNode = smol->GetNode(nodes[i]);
+		nodes.erase(nodes.begin() +i);
+		for (auto && neighbor : smolsNode->neighbors())
+		{
+			auto temp  = distance[smolsNode->GetID()] + smolsNode->LowestArc()->GetLength();
+			if  (temp < distance[nodes[i]->GetID()]) {
+				distance[nodes[i]->GetID()] = temp;
+				prev[smol->GetID()] =smol;
+			}
+		}
+		
+	}
+	return std::make_tuple(distance, prev);
 }
 
 Network &Network::operator=(const Network &rhs)

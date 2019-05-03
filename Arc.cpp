@@ -57,6 +57,9 @@ Node *Arc::GetNode(Node *from)
 std::tuple<Node*,Node*> Arc::GetNodes(){
 	return  std::make_tuple(m_to, m_from);
 }
+bool Arc::operator<(const Arc& lhs) const{
+	return (m_length < lhs.m_length);
+}
 Arc::~Arc()
 {
 }

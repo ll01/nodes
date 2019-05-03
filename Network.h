@@ -21,7 +21,9 @@ public:
 	Node* FindNode(int);
 	void addArc(Arc*);
 	Arc* FindArc(std::string);
+	Arc* FindArc(int,int);
 	void addNode(Node*);
+	std::tuple<std::map<int,double>, std::map<std::string,Arc*>> Dijkstra(int sourceID ,int destinationID);
 	Network& operator+=(const Network& other);
 	Network operator+( const Network& rhs);
 	Network& operator=(const Network& rhs);

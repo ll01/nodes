@@ -1,4 +1,5 @@
 #include "Node.h"
+#include <algorithm>
 #pragma once
 
 
@@ -35,20 +36,26 @@ std::string Node::GetName()
 
 void Node::AddArc(Arc* arc) {
 	m_arcs.push_back(arc);
+	std::sort(m_arcs.begin(), m_arcs.end());
 }
 Arc* Node::HighestArc() {
-	double output = 0;
-	Arc* connectingArc  = NULL;
-	for(auto&& arc : m_arcs)
-	{
-		if(output < arc->GetLength()) {
-			output = arc->GetLength();
-			connectingArc  = arc;
-		}
-	}
-	return connectingArc;
-	
+	// double output = 0;
+	// Arc* connectingArc  = NULL;
+	// for(auto&& arc : m_arcs)
+	// {
+	// 	if(output < arc->GetLength()) {
+	// 		output = arc->GetLength();
+	// 		connectingArc  = arc;
+	// 	}
+	// }
+	// return connectingArc;
+	return m_arcs.back();
 }
+
+Arc* Node::LowestArc() {
+	return m_arcs.front();
+}
+
 
 std::vector<int> Node::neighbors() {
 	auto output = std::vector<int>();

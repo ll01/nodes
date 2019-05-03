@@ -25,6 +25,7 @@ public:
 	double GetY();
 	std::string GetName();
 	Arc* HighestArc();
+	Arc* LowestArc();
 	std::vector<int> neighbors();
 	void AddArc( Arc*);
 	~Node();

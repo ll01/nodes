@@ -29,8 +29,9 @@ public:
 	std::string GetID();
 	TravelType GetTravelType();
 	Node* GetNode(Node* from);
+	Node* GetFrom();
 	std::tuple<Node*,Node*> GetNodes();
-
+	bool operator<(const Arc& arc) const;
 	~Arc();
 };
 
