@@ -194,23 +194,7 @@ MainNetwork::MainNetwork(std::vector<Arc *> arcs, std::map<int, Node *> nodes)
 {
 	for (auto const &arc : arcs)
 	{
-		/*switch (arc->GetTravelType())
-		{
-		case rail:
-			
-			break;
-		case ship:
-			addToSubNetwork(arc->GetTravelType(), arc);
-			break;
-		case bus:
-			addToSubNetwork(arc->GetTravelType(), arc);
-			break;
-		case bike:
-			addToSubNetwork(arc->GetTravelType(), arc);
-			break;
-		}*/
 		addToSubNetwork(arc->GetTravelType(), arc);
-		//m_subNetworks[arc->GetTravelType()].addArc(arc);
 	}
 	m_subNetworks[bus] += m_subNetworks[rail];
 	m_subNetworks[car] += m_subNetworks[bus] + m_subNetworks[ship];
