@@ -6,6 +6,7 @@ enum TravelType
 {
 	rail = -1,
 	ship = 1,
+	car = 0,
 	bus = 2,
 	bike = 3,
 	foot = 4
@@ -23,7 +24,7 @@ private:
 public:
 	static std::map<int, Arc*> allArcs;
 	Arc();
-	Arc(int from, int to, std::string travelType, std::map<int ,Node*>);
+	Arc(int from, int to, TravelType travel, std::map<int ,Node*>);
 	double GetLength();
 	std::string GetID();
 	TravelType GetTravelType();

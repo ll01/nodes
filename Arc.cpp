@@ -7,13 +7,15 @@ Arc::Arc()
 {
 }
 
-Arc::Arc(int from, int to, std::string travelType, std::map<int,Node*> nodes)
+Arc::Arc(int to, int from, TravelType travel, std::map<int,Node*> nodes)
 {
 	m_to = nodes[to];
 	m_to->AddArc(this);
 	m_from = nodes[from];
 	m_from->AddArc(this);
 	m_id = std::to_string(to) + std::to_string(from);
+	
+	m_travel = travel;
 	calculateDistance();
 }
 

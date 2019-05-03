@@ -23,6 +23,7 @@ public:
 	int GetID();
 	double GetX();
 	double GetY();
+	std::string GetName();
 	Arc* HighestArc();
 	std::vector<int> neighbors();
 	void AddArc( Arc*);

@@ -28,6 +28,11 @@ double Node::GetY() {
 	return m_y;
 }
 
+std::string Node::GetName()
+{
+	return m_name;
+}
+
 void Node::AddArc(Arc* arc) {
 	m_arcs.push_back(arc);
 }

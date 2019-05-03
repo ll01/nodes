@@ -2,6 +2,8 @@
 
 #include <fstream>
 #include <string>
+#include "Network.h"
+
 
 class Navigation
 {
@@ -12,7 +14,7 @@ class Navigation
 public:
 	Navigation();
 	~Navigation();
-	MainNetwork net;
+	MainNetwork c;
 	bool BuildNetwork(const std::string& fileNamePlaces, const std::string& fileNameLinks);
 	bool ProcessCommand(const std::string& commandString);
 
