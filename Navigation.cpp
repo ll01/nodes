@@ -150,7 +150,20 @@ bool Navigation::ProcessCommand(const string & commandString)
             auto travel = convertToTravelType(commandParts[1]);
             auto a = std::stoi(commandParts[2]);
             auto b = std::stoi(commandParts[3]);
-            c.Dijkstra(travel,a,b);
+			double distance = 0;
+			std::vector<int> nodes;
+			std::tie(distance, nodes)  = c.Dijkstra(travel, a, b);
+			if (nodes.size() > 0) {
+				std::cout << commandParts[2] << std::endl;
+				for (auto const& i : nodes) {
+					std::cout << i << std::endl;
+				}
+				std::cout << commandParts[3] << std::endl;
+			}
+			else {
+				std::cout << "FAIL" << std::endl;
+			}
+			state = true;
         }
 		break;
 	case hash1("FindShortestRoute"):
