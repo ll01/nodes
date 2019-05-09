@@ -40,7 +40,7 @@ void Node::AddArc(Arc* arc) {
 }
 Arc* Node::HighestArc() {
 	// double output = 0;
-	// Arc* connectingArc  = NULL;
+    Arc* connectingArc  = NULL;
 	// for(auto&& arc : m_arcs)
 	// {
 	// 	if(output < arc->GetLength()) {
@@ -49,7 +49,10 @@ Arc* Node::HighestArc() {
 	// 	}
 	// }
 	// return connectingArc;
-	return m_arcs.back();
+    if (m_arcs.size() > 0) {
+        connectingArc = m_arcs.back();
+    }
+    return connectingArc;
 }
 
 Arc* Node::LowestArc() {
@@ -65,7 +68,17 @@ std::vector<int> Node::neighbors() {
 	}
 	return output;
 }
-
+bool Node::isNeighbor(int arcID){
+    bool isNeibor = false;
+    
+    auto n = neighbors();
+    if (arcID == m_id) {
+        isNeibor = true;
+    } else {
+        isNeibor = std::find(n.begin(),n.end(), arcID) != n.end();
+    }
+    return isNeibor;
+}
 Node::~Node()
 {
 }

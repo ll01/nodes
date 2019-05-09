@@ -27,6 +27,7 @@ public:
 	Arc* HighestArc();
 	Arc* LowestArc();
 	std::vector<int> neighbors();
+    bool isNeighbor(int arcID);
 	void AddArc( Arc*);
 	~Node();
 };

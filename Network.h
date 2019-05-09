@@ -9,7 +9,7 @@ protected:
 	std::map<std::string, Arc*> m_arcMap;
 	void sync(const Network& input);
 	
-public:
+ public:
     Network();
 	Network(std::vector<Arc *> arcs, std::map<int, Node *> nodes);
     //Network(TravelType travelType);
@@ -23,7 +23,7 @@ public:
 	Arc* FindArc(std::string);
 	Arc* FindArc(int,int);
 	void addNode(Node*);
-	std::tuple<std::map<int,double>, std::map<std::string,Arc*>> Dijkstra(int sourceID ,int destinationID);
+	std::map<int,double> Dijkstra(int sourceID ,int destinationID);
 	Network& operator+=(const Network& other);
 	Network operator+( const Network& rhs);
 	Network& operator=(const Network& rhs);
@@ -39,6 +39,7 @@ public:
 	MainNetwork(/* args */);
 	MainNetwork(std::vector<Arc *> arcs, std::map<int, Node *> nodes);
 	std::vector<std::tuple<int, int, bool>> Check(TravelType travelType, std::vector<int> nodes);
+    std::map<int,double>  Dijkstra(TravelType travel, int sourceID, int destinationID);
 	
 	~MainNetwork();
 };

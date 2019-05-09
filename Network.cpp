@@ -44,8 +44,12 @@ Arc *Network::FindArc(std::string id)
 	return found;
 }
 
-Arc *Network::FindArc(int one, int ) {
-
+Arc *Network::FindArc(int one, int two) {
+    auto arc = FindArc(std::to_string(one) + std::to_string(two));
+    if (arc == nullptr) {
+         arc = FindArc(std::to_string(two) + std::to_string(one));
+    }
+    return  arc;
 }
 
 void Network::addNode(Node *node)
@@ -100,7 +104,7 @@ std::tuple<int, int, double> Network::FindLongestArc()
 
 std::tuple<std::string, std::string, double> Network::FindDistance(std::string x, std::string y)
 {
-	auto arc = m_arcMap[x + y];
+    auto arc = FindArc(x + y);
 	if (arc != nullptr)
 	{
 		Node *a;
@@ -189,34 +193,52 @@ std::tuple<Arc*,int> findSmallest(std::vector<Arc*> arcs) {
 	return std::make_tuple( output,index);
 }
 
-std::tuple<std::map<int,double>, std::map<std::string,Arc*>> Network::Dijkstra(int sourceID ,int destinationID ) {
-	std::map<int,double>distance;
-	std::map<std::string,Arc*>visited;
-	std::map<std::string,Arc*>prev;
-	std::vector<Node*> nodes;
-	for (auto &&node : m_nodeMap)
-	{
-		distance[node.first] = std::numeric_limits<int>::max();
-		nodes.push_back(node.second);
-	}
-	distance[sourceID] = 0; 
+int minDistance(std::map<int,double> distance, std::map<int,bool> spset) {
+    int min =std::numeric_limits<double>::max();
+    int index = distance.begin()->first;
+    for (auto const &node : distance) {
+          if (spset[node.first] == false && node.second <= min){
+              min = node.second;
+              index = node.first;
+    }
+     
+    }
+    return index;
+}
 
-	for (int i = 0; i < nodes.size(); i++)
-	{
-		auto smol  = nodes[i]->LowestArc();
-		auto smolsNode = smol->GetNode(nodes[i]);
-		nodes.erase(nodes.begin() +i);
-		for (auto && neighbor : smolsNode->neighbors())
-		{
-			auto temp  = distance[smolsNode->GetID()] + smolsNode->LowestArc()->GetLength();
-			if  (temp < distance[nodes[i]->GetID()]) {
-				distance[nodes[i]->GetID()] = temp;
-				prev[smol->GetID()] =smol;
-			}
-		}
-		
-	}
-	return std::make_tuple(distance, prev);
+std::map<int,double> Network::Dijkstra(int sourceID ,int destinationID ) {
+    std::map<int,double>distance;
+    std::map<int, std::vector<int>> visited;
+    std::map<int,bool> spset;
+    
+    for (auto const &node : m_nodeMap) {
+        spset[node.first] = false;
+        distance[node.first] = std::numeric_limits<double>::max();
+    }
+    distance[sourceID] = 0;
+    
+    for (int i = 0; i < m_nodeMap.size() - 1; i++) {
+        int u = 0;
+        if (i == 0) {
+            u = sourceID;
+        } else {
+            u  = minDistance( distance, spset);
+            
+        }
+        spset[u]= true;
+        for (auto const &node : m_nodeMap) {
+            auto shortArc = FindArc(u, node.first);
+            if (!spset[node.first] && shortArc != nullptr && distance[u] != std::numeric_limits<int>::max()) {
+                
+                if (distance[u]+ shortArc->GetLength() < distance[node.first]) {
+                    distance[node.first] = distance[u]+ shortArc->GetLength();
+                    visited[node.first].push_back(u);
+                }
+            }
+        }
+        
+    }
+    return  distance;
 }
 
 Network &Network::operator=(const Network &rhs)
@@ -228,6 +250,7 @@ Network &Network::operator=(const Network &rhs)
 		m_nodeMap = std::map<int, Node *>(rhs.m_nodeMap);
 		return *this;
 	}
+    return *this;
 }
 
 Network::~Network()
@@ -261,6 +284,9 @@ void MainNetwork::addToSubNetwork(TravelType travelType, Arc *arc)
 	m_subNetworks[travelType].addNode(b);
 }
 
+std::map<int,double>  MainNetwork::Dijkstra(TravelType travel, int sourceID, int destinationID) {
+    return m_subNetworks[travel].Dijkstra(sourceID, destinationID);
+}
 MainNetwork::~MainNetwork()
 {
 }

@@ -26,6 +26,31 @@ unsigned int hash1(const char* str, int h = 0)
 	return !str[h] ? 5381 : (hash1(str, h + 1) * 33) ^ str[h];
 }
 
+TravelType convertToTravelType(const string & name ) {
+    TravelType travel;
+    switch (hash1(name.c_str()))
+    {
+        case hash1("Rail"):
+            travel = rail;
+            break;
+        case hash1("Ship"):
+            travel = ship;
+            break;
+        case hash1("Bus"):
+            travel = bus;
+            break;
+        case hash1("Car"):
+            travel = car;
+            break;
+        case hash1("Bike"):
+            travel = bike;
+            break;
+        case hash1("Foot"):
+            travel = foot;
+            break;
+    }
+    return travel;
+}
 vector<string> split(const string & str, const string & delim)
 {
 	vector<string> tokens;
@@ -50,7 +75,7 @@ bool Navigation::ProcessCommand(const string & commandString)
 	switch (hash1(action))
 	{
 	case hash1("MaxDist"):
-		std::cout << "hi" << std::endl;
+		
 		break;
 	case hash1("MaxLink"):
 	{
@@ -68,14 +93,21 @@ bool Navigation::ProcessCommand(const string & commandString)
 		string to;
 		string from;
 		double distance;
-		std::tie(to, from, distance) = c.FindDistance(commandParts[1], commandParts[2]);
+		std::tie(to, from, distance) = c.FindDistance(commandParts[2], commandParts[1]);
 		if (distance > 0) {
 			std::cout << to << "," << from << "," << std::setprecision(3) << distance << std::endl;
 			state = true;
-		}
+        } else {
+            std::tie(to, from, distance) = c.FindDistance(commandParts[1], commandParts[2]);
+            if (distance > 0) {
+                std::cout << to << "," << from << "," << std::setprecision(3) << distance << std::endl;
+                state = true;
+            }
+            
+        }
 
 	}
-							break;
+    break;
 	case hash1("FindNeighbour"):
 	{
 		auto data = c.FindNeighbour(std::stoi(commandParts[1]));
@@ -91,33 +123,13 @@ bool Navigation::ProcessCommand(const string & commandString)
 	break;
 	case hash1("Check"):
 	{
-		TravelType travel;
-		switch (hash1(commandParts[1].c_str()))
-		{
-		case hash1("Rail"):
-			travel = rail;
-			break;
-		case hash1("Ship"):
-			travel = ship;
-			break;
-		case hash1("Bus"):
-			travel = bus;
-			break;
-		case hash1("Car"):
-			travel = car;
-			break;
-		case hash1("Bike"):
-			travel = bike;
-			break;
-		case hash1("Foot"):
-			travel = foot;
-			break;
-		}
+		  auto travel  = convertToTravelType(commandParts[1]);
 		vector<int> nodes;
 		for (int i = 2; i < commandParts.size(); i++)
 		{
 			nodes.push_back(std::stoi(commandParts.at(i)));
 		}
+      
 		auto data = c.Check(travel, nodes);
 		if (data.size() > 0) {
 			for (auto const& line : data)
@@ -134,10 +146,15 @@ bool Navigation::ProcessCommand(const string & commandString)
 	}
 		break;
 	case hash1("FindRoute"):
+        {
+            auto travel = convertToTravelType(commandParts[1]);
+            auto a = std::stoi(commandParts[2]);
+            auto b = std::stoi(commandParts[3]);
+            c.Dijkstra(travel,a,b);
+        }
 		break;
 	case hash1("FindShortestRoute"):
 		break;
-
 	default:
 		break;
 	}
@@ -148,11 +165,13 @@ bool Navigation::ProcessCommand(const string & commandString)
 	return state;
 }
 
+
+
 bool Navigation::BuildNetwork(const string & fileNamePlaces, const string & fileNameLinks)
 {
 	fstream finPlaces(fileNamePlaces);
 	fstream finLinks(fileNameLinks);
-	if (finPlaces.fail() || finLinks.fail()) return false;
+    if (finPlaces.fail() || finLinks.fail()) return false;
 	std::string line;
 	vector<std::string> data;
 	map<int, Node*> nodes;
