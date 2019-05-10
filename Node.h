@@ -8,9 +8,9 @@ class Node
 {
 private:
 	std::string m_name;
-	int m_id;
-	double m_x;
-	double m_y;
+	int m_id = -1;
+	double m_x = 0;
+	double m_y =0;
 	std::vector<Arc*>m_arcs;
 public:
 	// struct Node

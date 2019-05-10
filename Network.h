@@ -27,7 +27,7 @@ protected:
 	Network& operator+=(const Network& other);
 	Network operator+( const Network& rhs);
 	Network& operator=(const Network& rhs);
-    ~Network();
+    virtual ~Network();
 };
 class MainNetwork :public Network
 {
