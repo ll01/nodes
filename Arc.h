@@ -9,13 +9,14 @@ enum TravelType
 	car = 0,
 	bus = 2,
 	bike = 3,
-	foot = 4
+	foot = 4,
+	null = -2
 };
 
 class Arc
 {
 private:
-	TravelType m_travel;
+	TravelType m_travel = null;
 	Node* m_from = NULL;
 	Node* m_to = NULL;
 	double m_length = 0;

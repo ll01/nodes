@@ -8,6 +8,10 @@
 
 Node::Node()
 {
+	m_name = "";
+	m_id = -1;
+	m_x = 0;
+	m_y = 0;
 }
 
 Node::Node(std::string newName, int newId, double newLon, double newLat)
